@@ -3,6 +3,8 @@ import './App.css';
 import { Label, Note } from "./types";
 import { dummyNotesList } from "./constants";
 import { ClickCounter } from './hooksExercise';
+import ToggleTheme from './hooksExercise'; // Import ToggleTheme
+
 
 function App() {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -18,7 +20,9 @@ function App() {
   };
 
   return (
+
     <div className='app-container'>
+        <ToggleTheme />
       <form className="note-form">
         <div><input placeholder="Note Title" /></div>
         <div><textarea placeholder="Note Content"></textarea></div>

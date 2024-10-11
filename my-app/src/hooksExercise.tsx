@@ -32,13 +32,13 @@ export function ClickCounter() {
          padding: "20px",
        }}
      >
-       {/* <p>You clicked {count} times </p>
+       <p>You clicked {count} times </p>
        <button
          onClick={() => setCount(count + 1)}
          style={{ background: theme.foreground, color: theme.background }}
        >
          Click me
-       </button> */}
+       </button>
 
      </div>
    );
