@@ -15,8 +15,6 @@ function App() {
     category: 'other',
   };
   const [createNote, setCreateNote] = useState<Note>(initialNote);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-
   const contentRef = useRef<HTMLDivElement>(null);
 
   const createNoteHandler = (event: React.FormEvent) => {
@@ -44,6 +42,29 @@ function App() {
         prevNotes.map((n) => (n.id === note.id ? updatedNote : n))
       );
     }
+  };
+
+  // Function to handle changes to the title
+  const handleTitleChange = (event: React.FormEvent<HTMLHeadingElement>, note: Note) => {
+    const updatedTitle = event.currentTarget.textContent || "";
+    const updatedNote = { ...note, title: updatedTitle };
+    setNotes((prevNotes) =>
+      prevNotes.map((n) => (n.id === note.id ? updatedNote : n))
+    );
+  };
+
+  // Function to handle changes to the label
+  const handleLabelChange = (event: React.ChangeEvent<HTMLSelectElement>, note: Note) => {
+    const updatedLabel = event.target.value as Label;
+    const updatedNote = { ...note, label: updatedLabel };
+    setNotes((prevNotes) =>
+      prevNotes.map((n) => (n.id === note.id ? updatedNote : n))
+    );
+  };
+
+  // Function to handle note deletion
+  const handleDeleteNote = (noteId: number) => {
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
   };
 
   return (
@@ -104,9 +125,21 @@ function App() {
               >
                 {favorites.includes(note.title) ? '❤️' : '🤍'}
               </button>
-              <button className="remove-button">x</button>
+              <button
+                className="remove-button"
+                onClick={() => handleDeleteNote(note.id)}
+              >
+                x
+              </button>
             </div>
-            <h2>{note.title}</h2>
+            <h2
+              contentEditable={true}
+              suppressContentEditableWarning={true}
+              onInput={(event) => handleTitleChange(event, note)}
+              className="editable-title"
+            >
+              {note.title}
+            </h2>
             <div
               ref={contentRef}
               contentEditable={true}
@@ -116,7 +149,16 @@ function App() {
             >
               {note.content}
             </div>
-            <p>{note.label}</p>
+            <select
+              className="editable-label"
+              value={note.label}
+              onChange={(event) => handleLabelChange(event, note)}
+            >
+              <option value={Label.personal}>Personal</option>
+              <option value={Label.study}>Study</option>
+              <option value={Label.work}>Work</option>
+              <option value={Label.other}>Other</option>
+            </select>
           </div>
         ))}
       </div>
