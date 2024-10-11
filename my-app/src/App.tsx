@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
-import { Label, Note } from "./types";
-import { dummyNotesList } from "./constants";
-import { ClickCounter } from './hooksExercise';
-import ToggleTheme from './hooksExercise'; // Import ToggleTheme
+import { Label, Note } from './types';
+import { dummyNotesList } from './constants';
+import ToggleTheme from './hooksExercise';
 
 function App() {
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [notes, setNotes] = useState<Note[]>(dummyNotesList); 
-
-  // Define the initial state for creating a new note
+  const [notes, setNotes] = useState<Note[]>(dummyNotesList);
   const initialNote = {
     id: -1,
     title: "",
@@ -18,15 +15,15 @@ function App() {
     category: 'other',
   };
   const [createNote, setCreateNote] = useState<Note>(initialNote);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
-  // Function to handle note creation
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const createNoteHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("title: ", createNote.title);
-    console.log("content: ", createNote.content);
     const newNote = { ...createNote, id: notes.length + 1 };
     setNotes([newNote, ...notes]);
-    setCreateNote(initialNote); // Reset the form
+    setCreateNote(initialNote);
   };
 
   const toggleFavorite = (noteTitle: string) => {
@@ -37,6 +34,16 @@ function App() {
         return [...prevFavorites, noteTitle];
       }
     });
+  };
+
+  const handleContentChange = (note: Note) => {
+    if (contentRef.current) {
+      const updatedContent = contentRef.current.textContent || "";
+      const updatedNote = { ...note, content: updatedContent };
+      setNotes((prevNotes) =>
+        prevNotes.map((n) => (n.id === note.id ? updatedNote : n))
+      );
+    }
   };
 
   return (
@@ -100,7 +107,15 @@ function App() {
               <button className="remove-button">x</button>
             </div>
             <h2>{note.title}</h2>
-            <p>{note.content}</p>
+            <div
+              ref={contentRef}
+              contentEditable={true}
+              suppressContentEditableWarning={true}
+              onInput={() => handleContentChange(note)}
+              className="note-content"
+            >
+              {note.content}
+            </div>
             <p>{note.label}</p>
           </div>
         ))}
@@ -114,8 +129,6 @@ function App() {
           ))}
         </ul>
       </div>
-
-      <ClickCounter />
     </div>
   );
 }
