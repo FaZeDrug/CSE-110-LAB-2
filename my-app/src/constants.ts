@@ -11,34 +11,29 @@ export const dummyNotesList = [
         title: "test note 2 title",
         content: "test note 2 content",
         label: Label.personal,
-        category: 'other'
     },
     {
         id: 3,
         title: "test note 3 title",
         content: "test note 3 content",
         label: Label.work,
-        categoy: 'other';
-    }
+    },
     {
         id: 4,
         title: "test note 4 title",
         content: "test note 4 content",
         label: Label.study,
-        category: 'other'
     },
     {
         id: 5,
         title: "test note 5 title",
         content: "test note 5 content",
         label: Label.study,
-        category: 'personal'
     },
     {
         id: 6,
         title: "test note 6 title",
         content: "test note 6 content",
         label: Label.personal,
-        category: 'other'
     },
 ]
