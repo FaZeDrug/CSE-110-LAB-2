@@ -126,7 +126,8 @@ export const StickyNotes = () => {
                     {favorites.includes(note.title) ? '❤️' : '🤍'}
                   </button>
                   <button
-                    className="remove-button"
+                    className={"remove-button-" + note.id}
+                    data-testid={"remove-button-" + note.id}
                     onClick={() => handleDeleteNote(note.id)}
                   >
                     x
