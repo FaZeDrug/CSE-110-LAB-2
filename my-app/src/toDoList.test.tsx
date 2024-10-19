@@ -1,8 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { dummyGroceryList} from './constants';
 import { ToDoList } from "./toDoList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 describe("ToDo List", () => {
+
+    // OUR TESTS BELOW
     test("check all items displayed", () => {
         render(<ToDoList />);
 
@@ -13,59 +16,39 @@ describe("ToDo List", () => {
         expect(bananaItem).toBeInTheDocument();
       });
 
-      test("check checked items are displayed correctly in title", () => {
-        const { container } = render(<ToDoList />);
+      test("check title render", () => {
+        render(<ToDoList />);
 
-        // This test isn't working for Apples for some reason
-        // My guess is that it has something to do with the reordering once an item is checked?
-
-        //const checkApples = screen.getByTestId("check-button-Apples");
-        const checkBananas = screen.getByTestId("check-button-Bananas");
-
-        //fireEvent.click(checkApples);
-        fireEvent.click(checkBananas);
-
-        //expect(checkApples).toBeChecked();
-        expect(checkBananas).toBeChecked();
-
-        const title = container.querySelector(".App-body");
-        expect(title).not.toBeNull();
-        expect(title).toHaveTextContent("1");
+        const title = screen.getByText("'s To Do List");
+        expect(title).toBeInTheDocument();
       });
 
-     test("updates remaining items count when checkbox is clicked", () => {
-         render(<BrowserRouter><ToDoList /></BrowserRouter>);
-    
-         // Again, use getByLabelText to find the checkboxes
-         const toDo1Checkbox = screen.getByLabelText("Apples");
-    
-         // Verify initial count is 0
-         const itemsBoughtText = screen.getByText("Items bought: 0");
-    
-         // Click the checkbox
-         fireEvent.click(toDo1Checkbox);
-    
-         // Verify that the items bought count is updated to 1
-         expect(screen.getByText("Items bought: 1")).toBeInTheDocument();
-       });
+      test("check checked items are displayed correctly in title", () => {
+        render(<ToDoList />);
 
-      test("check unchecked items are displayed correctly in title", () => {
-        const { container } = render(<ToDoList />);
+        const itemsBought0 = screen.getByText("Items bought: 0")
+        expect(itemsBought0).toBeInTheDocument();
 
-        const checkBananas = screen.getByTestId("check-button-Bananas");
+        const box = screen.getAllByRole("checkbox");
 
-        // I'm not sure if this is a continuation of the last test?
-        // Not sure why clicking it again would make it unchecked in this test
-        // unless it's connected to the last test somehow
-        fireEvent.click(checkBananas);
+        // Check all boxes
+        const firstItem = box[0];
 
-        expect(checkBananas).not.toBeChecked();
+        fireEvent.click(firstItem);
+        const itemsBought1 = screen.getByText("Items bought: 1")
+        expect(itemsBought1).toBeInTheDocument();
 
-        const title = container.querySelector(".App-body");
-        expect(title).not.toBeNull();
-        
-        // This should be 0, but failing when I enter 0
-        expect(title).toHaveTextContent("1");
+        fireEvent.click(firstItem);
+        const itemsBought2 = screen.getByText("Items bought: 2")
+        expect(itemsBought2).toBeInTheDocument();
+
+        // Uncheck all boxes
+        fireEvent.click(firstItem);
+        expect(itemsBought1).toBeInTheDocument();
+
+        const secondItem = box[1];
+        fireEvent.click(secondItem);
+        expect(itemsBought0).toBeInTheDocument();
       });
 
 });

@@ -33,6 +33,26 @@ describe("Create StickyNote", () => {
 
 
  //OUR TESTS BELOW
+
+ test("checks for all note", () => {
+  render(<StickyNotes />);
+
+  const note1 = screen.getByText("test note 1 title");
+  const note2 = screen.getByText("test note 2 title");
+  const note3 = screen.getByText("test note 3 title");
+  const note4 = screen.getByText("test note 4 title");
+  const note5 = screen.getByText("test note 5 title");
+  const note6 = screen.getByText("test note 6 title");
+
+
+  expect(note1).toBeInTheDocument();
+  expect(note2).toBeInTheDocument();
+  expect(note3).toBeInTheDocument();
+  expect(note4).toBeInTheDocument();
+  expect(note5).toBeInTheDocument();
+  expect(note6).toBeInTheDocument();
+});
+
  test("updates a note", () => {
     render(<StickyNotes />);
  
