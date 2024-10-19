@@ -70,11 +70,14 @@ describe("Create StickyNote", () => {
     const newNoteTitle = screen.getByText("New Note");
     const newNoteContent = screen.getByText("Note content");
 
-    fireEvent.change(newNoteTitle);
-    fireEvent.change(newNoteContent);
+    fireEvent.blur(newNoteTitle, {target: {textContent: "New Note edited"}});
+    fireEvent.blur(newNoteContent, {target: {textContent: "Note content edited"}});
+
+    const newNoteTitleEdited = screen.getByText("New Note edited");
+    const newNoteContentEdited = screen.getByText("Note content edited");
  
-    expect(newNoteTitle).toBeInTheDocument();
-    expect(newNoteContent).toBeInTheDocument();
+    expect(newNoteTitleEdited).toBeInTheDocument();
+    expect(newNoteContentEdited).toBeInTheDocument();
   });
 
  test("deletes a note", () => {
