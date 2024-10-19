@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { dummyGroceryList} from './constants';
 import { ToDoList } from "./toDoList";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 describe("ToDo List", () => {
     test("check all items displayed", () => {
@@ -32,6 +32,22 @@ describe("ToDo List", () => {
         expect(title).not.toBeNull();
         expect(title).toHaveTextContent("1");
       });
+
+     test("updates remaining items count when checkbox is clicked", () => {
+         render(<BrowserRouter><ToDoList /></BrowserRouter>);
+    
+         // Again, use getByLabelText to find the checkboxes
+         const toDo1Checkbox = screen.getByLabelText("Apples");
+    
+         // Verify initial count is 0
+         const itemsBoughtText = screen.getByText("Items bought: 0");
+    
+         // Click the checkbox
+         fireEvent.click(toDo1Checkbox);
+    
+         // Verify that the items bought count is updated to 1
+         expect(screen.getByText("Items bought: 1")).toBeInTheDocument();
+       });
 
       test("check unchecked items are displayed correctly in title", () => {
         const { container } = render(<ToDoList />);
