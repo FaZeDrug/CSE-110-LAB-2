@@ -30,10 +30,12 @@ describe("Create StickyNote", () => {
    expect(newNoteTitle).toBeInTheDocument();
    expect(newNoteContent).toBeInTheDocument();
  });
+});
 
 
  //OUR TESTS BELOW
 
+describe("Checks Notes", () => {
  test("checks for all notes", () => {
   render(<StickyNotes />);
 
@@ -52,7 +54,9 @@ describe("Create StickyNote", () => {
   expect(note5).toBeInTheDocument();
   expect(note6).toBeInTheDocument();
 });
+});
 
+describe("Update and Delete Notes", () => {
  test("updates a note", () => {
     render(<StickyNotes />);
  
@@ -104,7 +108,9 @@ describe("Create StickyNote", () => {
     expect(newNoteTitle).not.toBeInTheDocument();
     expect(newNoteContent).not.toBeInTheDocument();
   });
+});
 
+describe("Favorite Notes", () => {
   test("favorites a note", () => {
     const {container} = render(<StickyNotes />);
 
