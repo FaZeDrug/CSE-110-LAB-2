@@ -121,6 +121,7 @@ export const StickyNotes = () => {
                 <div className="notes-header">
                   <button
                     className="favorite-button"
+                    data-testid={"fav-button-" + note.id}
                     onClick={() => toggleFavorite(note.title)}
                   >
                     {favorites.includes(note.title) ? '❤️' : '🤍'}

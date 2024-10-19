@@ -62,6 +62,7 @@ function ListItem(item: GroceryItem, changeHandler: ChangeEventHandler) {
    <div>
      <input
        type="checkbox"
+       data-testid={"check-button-" + item.name}
        onChange={changeHandler}
        checked={item.isPurchased}
        name={item.name}

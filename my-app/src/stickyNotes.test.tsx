@@ -36,7 +36,6 @@ describe("Create StickyNote", () => {
  test("updates a note", () => {
     render(<StickyNotes />);
  
- // Please make sure your sticky note has a title and content input field with the following placeholders.
     const createNoteTitleInput = screen.getByPlaceholderText("Note Title");
     const createNoteContentTextarea =
       screen.getByPlaceholderText("Note Content");
@@ -61,7 +60,6 @@ describe("Create StickyNote", () => {
  test("deletes a note", () => {
     render(<StickyNotes />);
  
- // Please make sure your sticky note has a title and content input field with the following placeholders.
     const createNoteTitleInput = screen.getByPlaceholderText("Note Title");
     const createNoteContentTextarea =
       screen.getByPlaceholderText("Note Content");
@@ -84,7 +82,30 @@ describe("Create StickyNote", () => {
     expect(newNoteContent).not.toBeInTheDocument();
   });
 
-    
-    
+  test("favorites a note", () => {
+    const {container} = render(<StickyNotes />);
+
+    const createNoteTitleInput = screen.getByPlaceholderText("Note Title");
+    const createNoteContentTextarea =
+      screen.getByPlaceholderText("Note Content");
+    const createNoteButton = screen.getByText("Create Note");
+ 
+    fireEvent.change(createNoteTitleInput, { target: { value: "New Note" } });
+    fireEvent.change(createNoteContentTextarea, {
+      target: { value: "Note content" },
+    });
+    fireEvent.click(createNoteButton);
+ 
+    const newNoteTitle = screen.getByText("New Note");
+    const newNoteContent = screen.getByText("Note content");
+
+    const favButton = screen.getByTestId("fav-button-7");
+
+    fireEvent.click(favButton);
+
+    const favorites = container.querySelector('.favorites-list');
+    expect(favorites).not.toBeNull();
+    expect(favorites).toHaveTextContent("New Note");
+  });
 });
 
