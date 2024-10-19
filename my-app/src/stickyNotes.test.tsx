@@ -34,7 +34,7 @@ describe("Create StickyNote", () => {
 
  //OUR TESTS BELOW
 
- test("checks for all note", () => {
+ test("checks for all notes", () => {
   render(<StickyNotes />);
 
   const note1 = screen.getByText("test note 1 title");
